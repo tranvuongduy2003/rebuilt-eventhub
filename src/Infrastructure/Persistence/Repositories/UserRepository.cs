@@ -1,9 +1,9 @@
+using EventHub.Application.Abstractions.Persistence;
+using EventHub.Domain.Users;
+using EventHub.Infrastructure.Persistence.Mapping;
 using Microsoft.EntityFrameworkCore;
-using Solution.Application.Abstractions.Persistence;
-using Solution.Domain.Users;
-using Solution.Infrastructure.Persistence.Mapping;
 
-namespace Solution.Infrastructure.Persistence.Repositories;
+namespace EventHub.Infrastructure.Persistence.Repositories;
 
 internal sealed class UserRepository(ApplicationDatabaseContext databaseContext) : IUserRepository
 {

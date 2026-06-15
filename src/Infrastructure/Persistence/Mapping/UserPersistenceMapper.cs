@@ -1,7 +1,7 @@
-using Solution.Domain.Users;
-using Solution.Infrastructure.Persistence.Entities;
+using EventHub.Domain.Users;
+using EventHub.Infrastructure.Persistence.Entities;
 
-namespace Solution.Infrastructure.Persistence.Mapping;
+namespace EventHub.Infrastructure.Persistence.Mapping;
 
 internal static class UserPersistenceMapper
 {

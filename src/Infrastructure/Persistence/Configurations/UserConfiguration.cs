@@ -1,9 +1,9 @@
+using EventHub.Domain.Users;
+using EventHub.Infrastructure.Persistence.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Solution.Domain.Users;
-using Solution.Infrastructure.Persistence.Entities;
 
-namespace Solution.Infrastructure.Persistence.Configurations;
+namespace EventHub.Infrastructure.Persistence.Configurations;
 
 internal sealed class UserConfiguration : IEntityTypeConfiguration<UserRecord>
 {

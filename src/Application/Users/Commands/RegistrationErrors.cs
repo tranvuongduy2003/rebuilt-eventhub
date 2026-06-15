@@ -1,6 +1,6 @@
-using Solution.Application.Common;
+using EventHub.Application.Common;
 
-namespace Solution.Application.Users.Commands;
+namespace EventHub.Application.Users.Commands;
 
 public static class RegistrationErrors
 {

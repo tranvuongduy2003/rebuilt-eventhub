@@ -1,7 +1,7 @@
-using Solution.Application.Abstractions.Persistence;
-using Solution.Domain.Users;
+using EventHub.Application.Abstractions.Persistence;
+using EventHub.Domain.Users;
 
-namespace Solution.Api.IntegrationTests.Users.Fakes;
+namespace EventHub.Api.IntegrationTests.Users.Fakes;
 
 internal sealed class ThrowOnAddUserRepository : IUserRepository
 {

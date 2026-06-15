@@ -1,6 +1,6 @@
-using Solution.Application.Abstractions.Messaging;
+using EventHub.Application.Abstractions.Messaging;
 
-namespace Solution.Application.Users.Queries;
+namespace EventHub.Application.Users.Queries;
 
 public sealed record GetCurrentUserQuery : IQuery<CurrentUserResult>;
 

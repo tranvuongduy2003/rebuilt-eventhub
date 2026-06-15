@@ -1,10 +1,10 @@
+using EventHub.Application.Abstractions.Persistence;
+using EventHub.Application.Common;
+using EventHub.Application.Users.Commands;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
-using Solution.Application.Abstractions.Persistence;
-using Solution.Application.Common;
-using Solution.Application.Users.Commands;
 
-namespace Solution.Infrastructure.Persistence;
+namespace EventHub.Infrastructure.Persistence;
 
 internal sealed class UnitOfWork(ApplicationDatabaseContext databaseContext) : IUnitOfWork
 {

@@ -1,9 +1,9 @@
+using EventHub.Domain.Events;
+using EventHub.Domain.Exceptions;
+using EventHub.Domain.Users;
 using FluentAssertions;
-using Solution.Domain.Events;
-using Solution.Domain.Exceptions;
-using Solution.Domain.Users;
 
-namespace Solution.Domain.UnitTests.Users;
+namespace EventHub.Domain.UnitTests.Users;
 
 public class UserRegisterTests
 {

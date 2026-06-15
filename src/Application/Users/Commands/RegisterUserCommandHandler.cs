@@ -1,12 +1,12 @@
-using Solution.Application.Abstractions.Auth;
-using Solution.Application.Abstractions.Messaging;
-using Solution.Application.Abstractions.Persistence;
-using Solution.Application.Abstractions.Services;
-using Solution.Application.Common;
-using Solution.Domain.Exceptions;
-using Solution.Domain.Users;
+using EventHub.Application.Abstractions.Auth;
+using EventHub.Application.Abstractions.Messaging;
+using EventHub.Application.Abstractions.Persistence;
+using EventHub.Application.Abstractions.Services;
+using EventHub.Application.Common;
+using EventHub.Domain.Exceptions;
+using EventHub.Domain.Users;
 
-namespace Solution.Application.Users.Commands;
+namespace EventHub.Application.Users.Commands;
 
 public sealed class RegisterUserCommandHandler(
     IUserRepository userRepository,

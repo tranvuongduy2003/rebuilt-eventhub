@@ -1,12 +1,12 @@
 using System.Net;
 using System.Net.Http.Json;
+using EventHub.Api.IntegrationTests.Integration;
+using EventHub.Contracts.Users;
+using EventHub.Testing.Common.Fixtures;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Solution.Api.IntegrationTests.Integration;
-using Solution.Contracts.Users;
-using Solution.Testing.Common.Fixtures;
 
-namespace Solution.Api.IntegrationTests.Users;
+namespace EventHub.Api.IntegrationTests.Users;
 
 [Collection(IntegrationTestCollection.Name)]
 public sealed class RegisterUserTests(IntegrationTestFixture fixture)

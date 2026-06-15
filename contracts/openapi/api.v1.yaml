@@ -1,4 +1,4 @@
-# Generated from Solution.Api (OpenAPI v1). Do not edit by hand — run:
+# Generated from EventHub.Api (OpenAPI v1). Do not edit by hand — run:
 #   yarn --cwd web api:export
 components:
   schemas:
@@ -84,7 +84,7 @@ components:
         - createdAt
       type: object
 info:
-  title: Solution.Api | v1
+  title: EventHub.Api | v1
   version: 1.0.0
 openapi: 3.1.1
 paths:

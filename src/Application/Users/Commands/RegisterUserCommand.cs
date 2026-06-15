@@ -1,6 +1,6 @@
-using Solution.Application.Abstractions.Messaging;
+using EventHub.Application.Abstractions.Messaging;
 
-namespace Solution.Application.Users.Commands;
+namespace EventHub.Application.Users.Commands;
 
 public sealed record RegisterUserCommand(
     string DisplayName,

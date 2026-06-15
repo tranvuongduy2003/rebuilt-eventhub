@@ -1,4 +1,4 @@
-namespace Solution.Application.Users;
+namespace EventHub.Application.Users;
 
 internal static class RegistrationValidationMessages
 {
@@ -22,6 +22,6 @@ internal static class RegistrationValidationMessages
 
     public const string PasswordMissingSpecial = "Password must include at least one special character.";
 
-    // Keep in sync with Password.AllowedSpecialCharacters in Solution.Domain.
+    // Keep in sync with Password.AllowedSpecialCharacters in EventHub.Domain.
     public const string AllowedPasswordSpecialCharacters = "!@#$%^&*()_+-=[]{}|;:'\",.<>?/\\`~";
 }

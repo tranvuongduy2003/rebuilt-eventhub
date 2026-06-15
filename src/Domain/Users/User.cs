@@ -1,7 +1,7 @@
-using Solution.Domain.Abstractions;
-using Solution.Domain.Events;
+using EventHub.Domain.Abstractions;
+using EventHub.Domain.Events;
 
-namespace Solution.Domain.Users;
+namespace EventHub.Domain.Users;
 
 public sealed class User : AggregateRoot<UserId>
 {

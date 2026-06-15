@@ -1,8 +1,8 @@
+using EventHub.Application.Abstractions.Messaging;
+using EventHub.Domain.Events;
 using Microsoft.Extensions.Logging;
-using Solution.Application.Abstractions.Messaging;
-using Solution.Domain.Events;
 
-namespace Solution.Application.Users.EventHandlers;
+namespace EventHub.Application.Users.EventHandlers;
 
 internal sealed class UserRegisteredEventHandler(ILogger<UserRegisteredEventHandler> logger)
     : IDomainEventHandler<UserRegisteredEvent>

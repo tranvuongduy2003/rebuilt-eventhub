@@ -1,4 +1,4 @@
-namespace Solution.Domain.Users;
+namespace EventHub.Domain.Users;
 
 public enum UserRole
 {

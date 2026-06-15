@@ -1,8 +1,8 @@
+using EventHub.Application.Users.Commands;
 using FluentAssertions;
 using FluentValidation.Results;
-using Solution.Application.Users.Commands;
 
-namespace Solution.Domain.UnitTests.Users;
+namespace EventHub.Domain.UnitTests.Users;
 
 public sealed class RegisterUserCommandValidatorTests
 {

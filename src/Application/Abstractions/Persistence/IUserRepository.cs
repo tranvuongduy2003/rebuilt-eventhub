@@ -1,6 +1,6 @@
-using Solution.Domain.Users;
+using EventHub.Domain.Users;
 
-namespace Solution.Application.Abstractions.Persistence;
+namespace EventHub.Application.Abstractions.Persistence;
 
 public interface IUserRepository
 {
