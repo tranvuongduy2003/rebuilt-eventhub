@@ -34,7 +34,19 @@ Source: [`docs/constitution.md`](docs/constitution.md) V, [`docs/technical.md`](
 
 ## ServiceDefaults
 
-Api calls ServiceDefaults extensions once — logging, health checks, service discovery, OpenTelemetry → Seq.
+Api calls ServiceDefaults extensions once — logging, health checks, service discovery, **OpenTelemetry OTLP** (Seq via `OTEL_EXPORTER_OTLP_ENDPOINT` injected by AppHost). **No `Aspire.*` client packages** in service projects — see `backend.mdc`.
+
+## Client libraries (service projects)
+
+| Concern | Use (native) | Not in Api/Application/Infrastructure |
+|---------|----------------|--------------------------------------|
+| PostgreSQL | `Npgsql` / EF Core | `Aspire.Npgsql.*` |
+| Redis | `StackExchange.Redis` | `Aspire.StackExchange.Redis` |
+| RabbitMQ | `RabbitMQ.Client` | `Aspire.RabbitMQ.Client` |
+| MinIO | `Minio` SDK | `CommunityToolkit.Aspire.Minio.*` |
+| Seq / telemetry | OpenTelemetry OTLP exporter | `Aspire.Seq` |
+
+Aspire **hosting** packages (`Aspire.Hosting.*`, `CommunityToolkit.Aspire.Hosting.*`) are confined to **`AppHost/`**.
 
 ## Config order (later wins)
 
@@ -51,6 +63,7 @@ EF migrations apply on startup in Development.
 
 ## DON'TS
 
+- ❌ No **Aspire client/component packages** in `Api`, `Application`, `Infrastructure`, or `ServiceDefaults` — AppHost provisions containers; services use native SDKs (`backend.mdc`)
 - ❌ No documenting "run Api alone" as the primary dev path for full-stack work
 - ❌ No secrets in AppHost source — user secrets / env
 - ❌ No production CD assumptions — local template only

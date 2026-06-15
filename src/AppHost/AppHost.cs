@@ -9,17 +9,33 @@ var postgres = builder.AddPostgres("postgres", password: postgresPassword)
 
 var applicationDatabase = postgres.AddDatabase("app");
 
-var redis = builder.AddRedis("Cache")
+var redis = builder.AddRedis("cache")
     .WithRedisCommander(redisCommander =>
         redisCommander.WithUrlForEndpoint("http", url => url.DisplayText = "Redis Commander"))
     .WithEndpoint(port: 6379, targetPort: 6379);
 
+var storage = builder.AddMinioContainer("storage")
+    .WithDataVolume();
+
+var messaging = builder.AddRabbitMQ("messaging")
+    .WithDataVolume()
+    .WithManagementPlugin();
+
+var seq = builder.AddSeq("seq")
+    .WithEnvironment("ACCEPT_EULA", "Y");
+
 #pragma warning disable ASPIRECERTIFICATES001 // WithHttpsDeveloperCertificate
 var api = builder.AddProject<Projects.Solution_Api>("api", launchProfileName: "https")
     .WithReference(applicationDatabase)
-    .WithReference(redis)
+    .WithReference(redis, connectionName: "Cache")
+    .WithReference(storage)
+    .WithReference(messaging)
+    .WithReference(seq)
     .WaitFor(postgres)
     .WaitFor(redis)
+    .WaitFor(storage)
+    .WaitFor(messaging)
+    .WaitFor(seq)
     .WithHttpsDeveloperCertificate()
     .WithExternalHttpEndpoints()
     .WithUrl("/scalar", "Scalar")

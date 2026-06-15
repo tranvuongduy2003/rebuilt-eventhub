@@ -95,6 +95,7 @@ External systems are provisioned by Aspire and accessed through Application port
 | Orchestration | **.NET Aspire** | Local topology, service discovery, connection-string/env injection | AppHost |
 
 **Notes**
+- **Aspire AppHost** provisions containers and injects connection strings / env (e.g. `OTEL_EXPORTER_OTLP_ENDPOINT` for Seq). **Service projects** (`Api`, `Application`, `Infrastructure`, `ServiceDefaults`) use **native SDKs only** — no `Aspire.*` or `CommunityToolkit.Aspire.*` client packages (EF Core/Npgsql, StackExchange.Redis, RabbitMQ.Client, Minio SDK, OpenTelemetry OTLP).
 - **Redis** is never a source of truth; anything cached must be rebuildable from PostgreSQL.
 - **MinIO** keeps large binaries out of the relational database; uploads go through the storage port and only references are persisted.
 - **RabbitMQ** carries integration messages between background consumers and the request path; consumers are idempotent so redelivered messages are safe.
@@ -145,7 +146,7 @@ Connection strings / endpoints are **Aspire-injected** and named after the AppHo
 
 ## 9. Observability & logging
 
-- **Structured logging** plus **OpenTelemetry** traces and metrics are configured once in `ServiceDefaults` and exported to **Seq**.
+- **Structured logging** plus **OpenTelemetry** traces and metrics are configured once in `ServiceDefaults` and exported to **Seq** via the **OTLP exporter** (`OTEL_EXPORTER_OTLP_ENDPOINT` from AppHost when Seq is referenced).
 - **Health checks** are exposed at `/health` and surfaced in the Aspire dashboard.
 - Correlation/trace IDs flow through the MediatR `LoggingBehavior` so a request can be followed end to end in Seq.
 

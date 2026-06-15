@@ -12,6 +12,7 @@ Architecture, CQRS, DDD, and layer rules live in **`architecture.mdc`** — do n
 
 ## DON'TS
 
+- ❌ No **Aspire client/component packages** (`Aspire.*`, `CommunityToolkit.Aspire.*`) in `Api`, `Application`, `Infrastructure`, or `ServiceDefaults` — use native SDKs (EF Core/Npgsql, StackExchange.Redis, RabbitMQ.Client, Minio SDK, OpenTelemetry OTLP). Aspire hosting packages are **AppHost-only** (orchestration).
 - ❌ No domain rules in Api endpoints — MediatR handlers only
 - ❌ No `Task.Result` / `.Wait()` — async throughout
 - ❌ No raw SQL strings — EF LINQ or parameterized APIs

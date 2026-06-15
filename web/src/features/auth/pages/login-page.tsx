@@ -28,7 +28,7 @@ export function LoginPage() {
 
       <p className="text-muted-foreground text-center text-sm">
         No account?{' '}
-        <Link to={paths.register} className="text-foreground underline-offset-4 hover:underline">
+        <Link to={paths.register} className="link-primary">
           Register
         </Link>
       </p>

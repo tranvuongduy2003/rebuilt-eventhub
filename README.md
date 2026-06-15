@@ -58,13 +58,13 @@ dotnet dev-certs https --trust
 ## Run locally
 
 ```bash
-dotnet run --project src/AppHost/EventHub.AppHost.csproj
+dotnet run --project src/AppHost/Solution.AppHost.csproj
 ```
 
 Or:
 
 ```bash
-aspire run --project src/AppHost/EventHub.AppHost.csproj
+aspire run --project src/AppHost/Solution.AppHost.csproj
 ```
 
 | Service | URL / port |
@@ -73,6 +73,9 @@ aspire run --project src/AppHost/EventHub.AppHost.csproj
 | API (HTTPS) | `https://localhost:8000` |
 | PostgreSQL | `localhost:5432` |
 | Redis | `localhost:6379` |
+| MinIO | Aspire dashboard (resource `storage`) |
+| RabbitMQ | Aspire dashboard (resource `messaging`) |
+| Seq | Aspire dashboard (resource `seq`) |
 
 ## MCP servers
 

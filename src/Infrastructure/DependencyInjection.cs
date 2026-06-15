@@ -3,11 +3,19 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Solution.Application.Abstractions.Auth;
 using Solution.Application.Abstractions.Cache;
+using Solution.Application.Abstractions.Email;
+using Solution.Application.Abstractions.Messaging;
+using Solution.Application.Abstractions.Payments;
 using Solution.Application.Abstractions.Persistence;
+using Solution.Application.Abstractions.Storage;
 using Solution.Infrastructure.Auth;
 using Solution.Infrastructure.Cache;
+using Solution.Infrastructure.Email;
+using Solution.Infrastructure.Messaging;
+using Solution.Infrastructure.Payments;
 using Solution.Infrastructure.Persistence;
 using Solution.Infrastructure.Persistence.Repositories;
+using Solution.Infrastructure.Storage;
 using StackExchange.Redis;
 
 namespace Solution.Infrastructure;
@@ -68,6 +76,11 @@ public static class DependencyInjection
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ISessionStore, SessionStore>();
         services.AddScoped<IPasswordHasher, IdentityPasswordHasher>();
+
+        services.AddSingleton<IObjectStorage, NoOpObjectStorage>();
+        services.AddSingleton<IIntegrationEventPublisher, NoOpIntegrationEventPublisher>();
+        services.AddSingleton<IEmailSender, NoOpEmailSender>();
+        services.AddSingleton<IPaymentGateway, NoOpPaymentGateway>();
 
         return services;
     }

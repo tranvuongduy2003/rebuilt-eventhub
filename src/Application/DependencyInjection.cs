@@ -37,6 +37,15 @@ public static partial class DependencyInjection
         services.AddOptions<AuthSessionOptions>()
             .BindConfiguration(AuthSessionOptions.SectionName);
 
+        services.AddOptions<StorageOptions>()
+            .BindConfiguration(StorageOptions.SectionName);
+
+        services.AddOptions<MessagingOptions>()
+            .BindConfiguration(MessagingOptions.SectionName);
+
+        services.AddOptions<RealtimeOptions>()
+            .BindConfiguration(RealtimeOptions.SectionName);
+
         return services;
     }
 }

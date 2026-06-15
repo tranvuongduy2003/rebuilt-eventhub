@@ -1,33 +1,41 @@
 /* Shared layout and typography utilities — use semantic tokens from globals.css */
 
 @layer utilities {
-  .terminal-density {
-    @apply text-sm leading-snug;
-  }
-
-  .price-tabular {
-    font-variant-numeric: tabular-nums;
-    @apply font-mono;
+  .store-container {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
   }
 
   .surface-panel {
-    @apply bg-card text-card-foreground border-border rounded-lg border;
+    @apply bg-card text-card-foreground border-border rounded-xl border shadow-sm;
   }
 
-  .text-bid-accent {
-    @apply text-bid;
+  .surface-card {
+    @apply bg-card text-card-foreground border-border rounded-xl border shadow-sm transition-shadow hover:shadow-md;
   }
 
-  .text-ask-accent {
-    @apply text-ask;
+  .price-display {
+    font-variant-numeric: tabular-nums;
+    @apply text-foreground text-lg font-semibold tracking-tight;
   }
 
-  .bg-bid-muted {
-    @apply bg-bid/10 text-bid border-bid/30 border;
+  .text-success-accent {
+    @apply text-success;
   }
 
-  .bg-ask-muted {
-    @apply bg-ask/10 text-ask border-ask/30 border;
+  .text-warning-accent {
+    @apply text-warning;
+  }
+
+  .bg-success-muted {
+    @apply bg-success/10 text-success border-success/25 border;
+  }
+
+  .bg-warning-muted {
+    @apply bg-warning/15 text-warning-foreground border-warning/30 border;
+  }
+
+  .link-primary {
+    @apply text-primary font-medium underline-offset-4 hover:underline;
   }
 }
 

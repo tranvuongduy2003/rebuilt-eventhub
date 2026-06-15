@@ -1,0 +1,33 @@
+import { ShoppingCart } from 'lucide-react'
+
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+
+export function CheckoutPlaceholderPage() {
+  return (
+    <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-2">
+        <p className="text-primary text-sm font-medium">Purchase flow</p>
+        <h1 className="text-2xl font-bold tracking-tight">Checkout</h1>
+        <p className="text-muted-foreground max-w-2xl text-sm">
+          A streamlined checkout with clear line items and all-inclusive pricing.
+        </p>
+      </div>
+
+      <Card className="shadow-sm">
+        <CardHeader>
+          <div className="bg-primary/10 text-primary mb-2 flex size-10 items-center justify-center rounded-lg">
+            <ShoppingCart className="size-5" aria-hidden />
+          </div>
+          <CardTitle>Coming soon</CardTitle>
+          <CardDescription>
+            Guest checkout and order holds (EP-5) will live here — ticket selection, price summary,
+            and payment handoff.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="text-muted-foreground text-sm">
+          Buyers will see the final price upfront with no hidden fees at the last step.
+        </CardContent>
+      </Card>
+    </div>
+  )
+}
