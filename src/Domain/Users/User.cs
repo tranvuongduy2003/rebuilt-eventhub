@@ -1,7 +1,5 @@
 using Solution.Domain.Abstractions;
 using Solution.Domain.Events;
-using Solution.Domain.Exceptions;
-using Solution.Domain.Users;
 
 namespace Solution.Domain.Users;
 
@@ -11,54 +9,56 @@ public sealed class User : AggregateRoot<UserId>
     {
     }
 
-    public Username Username { get; private set; } = null!;
+    public DisplayName DisplayName { get; private set; } = null!;
 
     public EmailAddress Email { get; private set; } = null!;
 
     public PasswordHash PasswordHash { get; private set; } = null!;
+
+    public UserRole Role { get; private set; }
 
     public DateTimeOffset CreatedAt { get; private set; }
 
     public DateTimeOffset UpdatedAt { get; private set; }
 
     public static User Register(
-        Username username,
+        DisplayName displayName,
         EmailAddress email,
-        Password password,
         PasswordHash passwordHash,
         DateTimeOffset createdAt)
     {
-        ArgumentNullException.ThrowIfNull(password);
-
         var userId = UserId.New();
         var user = new User
         {
             Id = userId,
-            Username = username,
+            DisplayName = displayName,
             Email = email,
             PasswordHash = passwordHash,
+            Role = UserRole.Organizer,
             CreatedAt = createdAt,
             UpdatedAt = createdAt,
         };
 
-        user.Raise(new UserRegisteredEvent(userId, username, email));
+        user.Raise(new UserRegisteredEvent(userId, displayName, email));
 
         return user;
     }
 
     public static User FromPersistence(
         UserId id,
-        Username username,
+        DisplayName displayName,
         EmailAddress email,
         PasswordHash passwordHash,
+        UserRole role,
         DateTimeOffset createdAt,
         DateTimeOffset updatedAt) =>
         new()
         {
             Id = id,
-            Username = username,
+            DisplayName = displayName,
             Email = email,
             PasswordHash = passwordHash,
+            Role = role,
             CreatedAt = createdAt,
             UpdatedAt = updatedAt,
         };

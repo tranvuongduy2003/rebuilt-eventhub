@@ -10,9 +10,6 @@ internal sealed class UserRepository(ApplicationDatabaseContext databaseContext)
     public async Task AddAsync(User user, CancellationToken cancellationToken = default) =>
         await databaseContext.Users.AddAsync(UserPersistenceMapper.ToUserRecord(user), cancellationToken);
 
-    public Task<bool> ExistsByUsernameAsync(string username, CancellationToken cancellationToken = default) =>
-        databaseContext.Users.AsNoTracking().AnyAsync(user => user.Username == username, cancellationToken);
-
     public Task<bool> ExistsByEmailAsync(string normalizedEmail, CancellationToken cancellationToken = default) =>
         databaseContext.Users.AsNoTracking().AnyAsync(user => user.Email == normalizedEmail, cancellationToken);
 

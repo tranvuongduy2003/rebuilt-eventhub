@@ -2,6 +2,6 @@ namespace Solution.Contracts.Users;
 
 public sealed record UserRegistrationResponse(
     Guid UserId,
-    string Username,
+    string DisplayName,
     string Email,
     DateTimeOffset CreatedAt);

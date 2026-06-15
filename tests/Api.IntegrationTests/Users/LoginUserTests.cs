@@ -55,7 +55,7 @@ public sealed class LoginUserTests(IntegrationTestFixture fixture)
         var loginBody = await loginResponse.Content.ReadFromJsonAsync<LoginUserResponse>();
         loginBody.Should().NotBeNull();
         loginBody!.UserId.Should().Be(registration!.UserId);
-        loginBody.Username.Should().Be(registration.Username);
+        loginBody.DisplayName.Should().Be(registration.DisplayName);
     }
 
     [Fact]
@@ -133,7 +133,7 @@ public sealed class LoginUserTests(IntegrationTestFixture fixture)
 
         loginResult.IsSuccess.Should().BeTrue();
         loginResult.Value!.UserId.Should().Be(registerResult.Value!.UserId);
-        loginResult.Value.Username.Should().Be($"user_{suffix}");
+        loginResult.Value.DisplayName.Should().Be($"user_{suffix}");
         loginResult.Value.SessionId.Should().NotBeEmpty();
     }
 

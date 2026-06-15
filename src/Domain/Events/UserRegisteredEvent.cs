@@ -5,5 +5,5 @@ namespace Solution.Domain.Events;
 
 public sealed record UserRegisteredEvent(
     UserId UserId,
-    Username Username,
+    DisplayName DisplayName,
     EmailAddress Email) : DomainEvent;

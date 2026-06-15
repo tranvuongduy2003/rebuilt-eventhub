@@ -63,7 +63,7 @@ internal sealed class AuthEndpoint : IEndpoint
             sessionOptions.Value);
 
         return Results.Ok(
-            new LoginUserResponse(loginUser.UserId, loginUser.Username, loginUser.Email));
+            new LoginUserResponse(loginUser.UserId, loginUser.DisplayName, loginUser.Email));
     }
 
     private static async Task<IResult> LogoutUser(
@@ -106,7 +106,7 @@ internal sealed class AuthEndpoint : IEndpoint
         var currentUser = result.Value!;
         return Results.Ok(new LoginUserResponse(
             currentUser.UserId,
-            currentUser.Username,
+            currentUser.DisplayName,
             currentUser.Email));
     }
 }

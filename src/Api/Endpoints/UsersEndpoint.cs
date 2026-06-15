@@ -30,7 +30,7 @@ internal sealed class UsersEndpoint : IEndpoint
         IOptions<AuthSessionOptions> sessionOptions)
     {
         var result = await sender.Send(
-            new RegisterUserCommand(request.Username, request.Email, request.Password));
+            new RegisterUserCommand(request.DisplayName, request.Email, request.Password));
 
         if (!result.IsSuccess)
         {
@@ -48,7 +48,7 @@ internal sealed class UsersEndpoint : IEndpoint
             $"/api/users/{registeredUser.UserId:D}",
             new UserRegistrationResponse(
                 registeredUser.UserId,
-                registeredUser.Username,
+                registeredUser.DisplayName,
                 registeredUser.Email,
                 registeredUser.CreatedAt));
     }

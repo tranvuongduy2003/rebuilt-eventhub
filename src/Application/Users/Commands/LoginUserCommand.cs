@@ -6,7 +6,7 @@ public sealed record LoginUserCommand(string Email, string Password) : ICommand<
 
 public sealed record LoginUserResult(
     Guid UserId,
-    string Username,
+    string DisplayName,
     string Email,
     Guid SessionId,
     DateTimeOffset SessionExpiresAt);

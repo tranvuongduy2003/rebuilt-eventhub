@@ -18,8 +18,9 @@ public sealed class RegisterUserTests(IntegrationTestFixture fixture)
     public async Task RegisterUser_Returns201_AndSetsSessionCookie()
     {
         var suffix = Guid.NewGuid().ToString("N")[..8];
+        var displayName = $"Organizer {suffix}";
         var request = new RegisterUserRequest(
-            $"user_{suffix}",
+            displayName,
             $"user_{suffix}@example.com",
             "SecurePass1!");
 
@@ -30,7 +31,7 @@ public sealed class RegisterUserTests(IntegrationTestFixture fixture)
 
         var registration = await registerResponse.Content.ReadFromJsonAsync<UserRegistrationResponse>();
         registration.Should().NotBeNull();
-        registration!.Username.Should().Be($"user_{suffix}");
+        registration!.DisplayName.Should().Be(displayName);
         registration.Email.Should().Be($"user_{suffix}@example.com");
         registration.UserId.Should().NotBeEmpty();
     }

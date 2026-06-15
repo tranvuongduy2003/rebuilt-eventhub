@@ -36,7 +36,7 @@ public sealed class LoginUserCommandHandler(
 
         return new LoginUserResult(
             user.Id.Value,
-            user.Username.Value,
+            user.DisplayName.Value,
             email.DisplayValue,
             session.SessionId,
             session.ExpiresAt);

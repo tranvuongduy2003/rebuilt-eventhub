@@ -2,12 +2,9 @@ namespace Solution.Application.Users;
 
 internal static class RegistrationValidationMessages
 {
-    public const string UsernameRequired = "Username is required.";
+    public const string DisplayNameRequired = "Display name is required.";
 
-    public const string UsernameLength = "Username must be between 3 and 32 characters.";
-
-    public const string UsernameInvalidCharacters =
-        "Username may only contain letters, digits, and underscores.";
+    public const string DisplayNameLength = "Display name must be between 1 and 64 characters.";
 
     public const string EmailRequired = "Email is required.";
 
