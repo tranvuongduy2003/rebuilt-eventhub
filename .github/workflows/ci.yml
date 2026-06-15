@@ -64,11 +64,6 @@ jobs:
         with:
           node-version: 22
 
-      - name: Setup PowerShell
-        uses: actions/setup-powershell@v1
-        with:
-          pwsh-version: '7.4.6'
-
       - name: Run deterministic agent evals (harness + graph)
         shell: pwsh
         run: ./evals/run.ps1
