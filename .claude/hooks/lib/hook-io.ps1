@@ -29,16 +29,16 @@ function Deny-Hook {
         [string]$Reason
     )
     Write-HookJson @{
-        hookSpecificOutput = @{
-            hookEventName             = "PreToolUse"
-            permissionDecision        = "deny"
-            permissionDecisionReason  = $Reason
-        }
+        permission = "deny"
+        reason     = $Reason
     }
-    exit 0
+    exit 2
 }
 
 function Allow-Hook {
+    Write-HookJson @{
+        permission = "allow"
+    }
     exit 0
 }
 
@@ -47,15 +47,15 @@ function Deny-ShellHook {
         [string]$Reason
     )
     Write-HookJson @{
-        hookSpecificOutput = @{
-            hookEventName             = "PreToolUse"
-            permissionDecision        = "deny"
-            permissionDecisionReason  = $Reason
-        }
+        permission = "deny"
+        reason     = $Reason
     }
-    exit 0
+    exit 2
 }
 
 function Allow-ShellHook {
+    Write-HookJson @{
+        permission = "allow"
+    }
     exit 0
 }
