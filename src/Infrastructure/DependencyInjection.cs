@@ -74,6 +74,7 @@ public static class DependencyInjection
         services.AddScoped<IApplicationDatabaseContextFactory, ApplicationDatabaseContextFactory>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IEventUserRoleRepository, EventUserRoleRepository>();
         services.AddScoped<ISessionStore, SessionStore>();
         services.AddScoped<IPasswordHasher, IdentityPasswordHasher>();
 
