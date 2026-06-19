@@ -1,5 +1,5 @@
 {
-  "tool_name": "Shell",
+  "tool_name": "Bash",
   "tool_input": {
     "command": "npm install",
     "working_directory": "{{PROJECT_ROOT}}/web"

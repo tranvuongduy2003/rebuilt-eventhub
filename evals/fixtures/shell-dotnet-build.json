@@ -1,5 +1,8 @@
 {
-  "command": "dotnet build EventHub.slnx -v q",
+  "tool_name": "Bash",
+  "tool_input": {
+    "command": "dotnet build EventHub.slnx -v q"
+  },
   "cwd": "{{PROJECT_ROOT}}",
   "hook_event_name": "beforeShellExecution"
 }
