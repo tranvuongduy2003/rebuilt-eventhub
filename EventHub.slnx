@@ -12,6 +12,9 @@
   <Folder Name="/src/Contracts/">
     <Project Path="src/Contracts/EventHub.Contracts.csproj" />
   </Folder>
+  <Folder Name="/src/DataSeeder/">
+    <Project Path="src/DataSeeder/EventHub.DataSeeder.csproj" />
+  </Folder>
   <Folder Name="/src/Domain/">
     <Project Path="src/Domain/EventHub.Domain.csproj" />
   </Folder>

@@ -75,6 +75,10 @@ var web = builder.AddViteApp("web", "../../web")
     });
 #pragma warning restore ASPIRECERTIFICATES001
 
+var seeder = builder.AddProject<Projects.EventHub_DataSeeder>("seeder")
+    .WithReference(applicationDatabase)
+    .WaitFor(postgres);
+
 api.WithEnvironment("Cors__AllowedOrigins__0", "https://localhost:5000");
 
 builder.Build().Run();
