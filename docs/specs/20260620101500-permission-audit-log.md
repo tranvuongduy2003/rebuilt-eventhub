@@ -7,7 +7,7 @@ slug: permission-audit-log
 filename_template: 20260620101500-permission-audit-log.md
 created_at: "2026-06-20T10:15:00Z"
 updated_at: "2026-06-20T10:15:00Z"
-status: draft
+status: implemented
 owner: product
 tags: [spec, eventhub, organizer-accounts-identity]
 feature_refs: ["F-1.9"]
@@ -178,5 +178,5 @@ search_index:
 
 | # | Question | Status |
 |---|----------|--------|
-| 1 | Should the transfer action produce one audit entry ("transferred") or two separate entries ("revoked" for old owner + "assigned" for new owner)? A single entry is simpler; two entries are more granular. | ❓ |
-| 2 | Should the audit log be accessible to Staff with a specific permission (e.g., a "View Audit" permission), or strictly Owner-only? Current spec assumes Owner-only for simplicity (QG-1). | ❓ |
+| 1 | Should the transfer action produce one audit entry ("transferred") or two separate entries ("revoked" for old owner + "assigned" for new owner)? A single entry is simpler; two entries are more granular. | ✅ **Two entries** — `Transferred` for demoted old owner + `Assigned` for new owner. More granular audit trail. Implemented in `AssignRoleCommandHandler`. |
+| 2 | Should the audit log be accessible to Staff with a specific permission (e.g., a "View Audit" permission), or strictly Owner-only? Current spec assumes Owner-only for simplicity (QG-1). | ✅ **Owner-only** — uses `Permission.EventManagement` (Owner has all permissions, Staff has CheckIn + Reporting only). Implemented in `ListAuditLogQuery`. |
