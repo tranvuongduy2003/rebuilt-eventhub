@@ -15,10 +15,7 @@ export type DraftEventResponse = {
   createdAt: string
 }
 
-export function createDraftEvent(
-  request: CreateDraftEventRequest,
-  signal?: AbortSignal,
-) {
+export function createDraftEvent(request: CreateDraftEventRequest, signal?: AbortSignal) {
   return apiClient.post<DraftEventResponse>('/api/events', request, {
     signal,
     suppressErrorToast: true,

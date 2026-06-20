@@ -16,7 +16,10 @@ export function EventsPlaceholderPage() {
         </p>
       </div>
 
-      <Link to={paths.createEvent} className={buttonVariants({ variant: 'default', className: 'w-fit' })}>
+      <Link
+        to={paths.createEvent}
+        className={buttonVariants({ variant: 'default', className: 'w-fit' })}
+      >
         Create event
       </Link>
 
