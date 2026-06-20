@@ -6,11 +6,11 @@ using EventHub.Contracts.Users;
 using EventHub.Domain.Events;
 using EventHub.Domain.Users;
 using EventHub.Infrastructure.Persistence;
-using Microsoft.EntityFrameworkCore;
 using EventHub.Infrastructure.Persistence.Entities;
 using EventHub.Testing.Common.Fixtures;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EventHub.Api.IntegrationTests.Events;
