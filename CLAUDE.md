@@ -47,7 +47,7 @@ Summarized here for quick scan; **Constitution is authoritative** if anything di
 ## REPOSITORY LAYOUT
 
 ```
-src/       AppHost, ServiceDefaults, Api, Application, Domain, Infrastructure, Contracts
+src/       AppHost, ServiceDefaults, Api, Application, Domain, Infrastructure, Contracts, DataSeeder
 tests/     Domain.UnitTests, Api.IntegrationTests, Testing.Common  (see backend-testing.md)
 web/       React 19 + Vite (not in .slnx; Yarn; run via Aspire `web` Vite app)
 docs/      constitution, prd, features, ddd, technical, specs/
@@ -189,7 +189,7 @@ Clear manually: delete `verify-gate.json`.
 |--------------|--------|
 | `web/**/*.{ts,tsx}` | eslint + tsc at stop if web touched |
 | `src/Domain/**` | dotnet format + filtered Domain.UnitTests |
-| `src/Application\|Infrastructure\|Api\|Contracts/**` | dotnet format + layer build |
+| `src/Application\|Infrastructure\|Api\|Contracts\|DataSeeder/**` | dotnet format + layer build |
 | Map source | `.graph/index.json` + `node scripts/affected-tests.mjs <path>` |
 
 ## Regression
