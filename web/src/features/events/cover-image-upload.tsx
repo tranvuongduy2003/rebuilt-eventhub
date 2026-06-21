@@ -154,9 +154,7 @@ export function CoverImageUpload({
               <p className="text-sm font-medium">
                 {currentImageUrl ? 'Replace cover image' : 'Upload cover image'}
               </p>
-              <p className="text-muted-foreground mt-1 text-xs">
-                JPEG, PNG, or WebP • Max 5 MB
-              </p>
+              <p className="text-muted-foreground mt-1 text-xs">JPEG, PNG, or WebP • Max 5 MB</p>
             </div>
           </div>
         )}
