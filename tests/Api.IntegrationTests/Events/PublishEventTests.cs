@@ -46,13 +46,13 @@ public sealed class PublishEventTests(IntegrationTestFixture fixture)
     }
 
     [Fact]
-    public async Task PublishEvent_NonExistentEvent_Returns404()
+    public async Task PublishEvent_NonExistentEvent_Returns403()
     {
         await RegisterOrganizerAsync();
 
         using var response = await _client.PostAsync("/api/events/99999/publish", null);
 
-        await PublishEventTestHelpers.AssertNotFoundAsync(response);
+        response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
     }
 
     [Fact]
