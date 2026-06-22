@@ -48,6 +48,17 @@ export type PublishEventResponse = {
   updatedAt: string
 }
 
+export type CloseEventResponse = {
+  status: string
+  updatedAt: string
+}
+
+export type CancelEventResponse = {
+  status: string
+  cancelledAt: string
+  updatedAt: string
+}
+
 export function createDraftEvent(request: CreateDraftEventRequest, signal?: AbortSignal) {
   return apiClient.post<DraftEventResponse>('/api/events', request, {
     signal,
@@ -84,6 +95,20 @@ export function uploadCoverImage(eventId: number, file: File, signal?: AbortSign
 
 export function publishEvent(eventId: number, signal?: AbortSignal) {
   return apiClient.post<PublishEventResponse>(`/api/events/${eventId}/publish`, undefined, {
+    signal,
+    suppressErrorToast: true,
+  })
+}
+
+export function closeEvent(eventId: number, signal?: AbortSignal) {
+  return apiClient.post<CloseEventResponse>(`/api/events/${eventId}/close`, undefined, {
+    signal,
+    suppressErrorToast: true,
+  })
+}
+
+export function cancelEvent(eventId: number, signal?: AbortSignal) {
+  return apiClient.post<CancelEventResponse>(`/api/events/${eventId}/cancel`, undefined, {
     signal,
     suppressErrorToast: true,
   })

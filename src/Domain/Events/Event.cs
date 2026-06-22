@@ -28,6 +28,8 @@ public sealed class Event : AggregateRoot<EventId>
 
     public DateTimeOffset CreatedAt { get; private set; }
 
+    public DateTimeOffset? CancelledAt { get; private set; }
+
     public DateTimeOffset UpdatedAt { get; private set; }
 
     public long RowVersion { get; private set; }
@@ -87,6 +89,48 @@ public sealed class Event : AggregateRoot<EventId>
         Raise(new EventPublishedEvent(Id, slug));
     }
 
+    public void Close(DateTimeOffset closedAt)
+    {
+        if (Status is not EventStatus.Published)
+        {
+            throw new BusinessRuleValidationException(
+                "EVENT_NOT_CLOSABLE",
+                Status switch
+                {
+                    EventStatus.Draft => "Cannot close a draft event.",
+                    EventStatus.Closed => "The event is already closed.",
+                    EventStatus.Cancelled => "Cannot close a cancelled event.",
+                    _ => "The event cannot be closed in its current status.",
+                });
+        }
+
+        Status = EventStatus.Closed;
+        UpdatedAt = closedAt;
+
+        Raise(new EventClosedEvent(Id, closedAt));
+    }
+
+    public void Cancel(DateTimeOffset cancelledAt)
+    {
+        if (Status is EventStatus.Draft or EventStatus.Cancelled)
+        {
+            throw new BusinessRuleValidationException(
+                "EVENT_NOT_CANCELLABLE",
+                Status switch
+                {
+                    EventStatus.Draft => "Cannot cancel a draft event.",
+                    EventStatus.Cancelled => "The event is already cancelled.",
+                    _ => "The event cannot be cancelled in its current status.",
+                });
+        }
+
+        Status = EventStatus.Cancelled;
+        CancelledAt = cancelledAt;
+        UpdatedAt = cancelledAt;
+
+        Raise(new EventCancelledEvent(Id, cancelledAt));
+    }
+
     public void UpdateDetails(
         EventTitle title,
         EventSchedule schedule,
@@ -118,6 +162,7 @@ public sealed class Event : AggregateRoot<EventId>
         EventStatus status,
         Slug? slug,
         CoverImageRef? coverImageRef,
+        DateTimeOffset? cancelledAt,
         DateTimeOffset createdAt,
         DateTimeOffset updatedAt,
         long rowVersion) =>
@@ -132,6 +177,7 @@ public sealed class Event : AggregateRoot<EventId>
             Status = status,
             Slug = slug,
             CoverImageRef = coverImageRef,
+            CancelledAt = cancelledAt,
             CreatedAt = createdAt,
             UpdatedAt = updatedAt,
             RowVersion = rowVersion,

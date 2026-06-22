@@ -90,6 +90,7 @@ public sealed class EventPublishTests
             EventStatus.Closed,
             null,
             null,
+            null,
             CreatedAt,
             CreatedAt,
             1);
@@ -111,6 +112,7 @@ public sealed class EventPublishTests
             EventLocation.Create("123 Main St", false),
             null,
             EventStatus.Cancelled,
+            null,
             null,
             null,
             CreatedAt,

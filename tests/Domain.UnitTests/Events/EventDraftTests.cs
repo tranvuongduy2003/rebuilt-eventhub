@@ -71,6 +71,7 @@ public sealed class EventDraftTests
             EventStatus.Draft,
             null,
             null,
+            null,
             CreatedAt,
             CreatedAt,
             1);

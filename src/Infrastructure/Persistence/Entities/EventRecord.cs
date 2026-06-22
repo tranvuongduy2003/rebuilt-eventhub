@@ -28,6 +28,8 @@ public sealed class EventRecord
 
     public string? CoverImageKey { get; set; }
 
+    public DateTimeOffset? CancelledAt { get; set; }
+
     public DateTimeOffset CreatedAt { get; set; }
 
     public DateTimeOffset UpdatedAt { get; set; }

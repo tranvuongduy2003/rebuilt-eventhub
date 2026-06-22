@@ -56,6 +56,30 @@ internal sealed class EventsEndpoint : IEndpoint
             .ProducesProblem(StatusCodes.Status409Conflict)
             .ProducesProblem(StatusCodes.Status422UnprocessableEntity)
             .ProducesProblem(StatusCodes.Status500InternalServerError);
+
+        endpoints.MapPost("/api/events/{eventId}/close", CloseEvent)
+            .WithName("CloseEvent")
+            .WithTags("Events")
+            .RequireAuthorization()
+            .Produces<CloseEventResponse>(StatusCodes.Status200OK)
+            .ProducesProblem(StatusCodes.Status401Unauthorized)
+            .ProducesProblem(StatusCodes.Status403Forbidden)
+            .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesProblem(StatusCodes.Status409Conflict)
+            .ProducesProblem(StatusCodes.Status422UnprocessableEntity)
+            .ProducesProblem(StatusCodes.Status500InternalServerError);
+
+        endpoints.MapPost("/api/events/{eventId}/cancel", CancelEvent)
+            .WithName("CancelEvent")
+            .WithTags("Events")
+            .RequireAuthorization()
+            .Produces<CancelEventResponse>(StatusCodes.Status200OK)
+            .ProducesProblem(StatusCodes.Status401Unauthorized)
+            .ProducesProblem(StatusCodes.Status403Forbidden)
+            .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesProblem(StatusCodes.Status409Conflict)
+            .ProducesProblem(StatusCodes.Status422UnprocessableEntity)
+            .ProducesProblem(StatusCodes.Status500InternalServerError);
     }
 
     private static async Task<IResult> CreateDraftEvent(
@@ -153,5 +177,46 @@ internal sealed class EventsEndpoint : IEndpoint
             publishResult.Status,
             publishResult.Slug,
             publishResult.UpdatedAt));
+    }
+
+    private static async Task<IResult> CloseEvent(
+        int eventId,
+        ISender sender)
+    {
+        var command = new CloseEventCommand(eventId);
+
+        var result = await sender.Send(command);
+
+        if (!result.IsSuccess)
+        {
+            return result.ToHttpResult();
+        }
+
+        var closeResult = result.Value!;
+
+        return Results.Ok(new CloseEventResponse(
+            closeResult.Status,
+            closeResult.UpdatedAt));
+    }
+
+    private static async Task<IResult> CancelEvent(
+        int eventId,
+        ISender sender)
+    {
+        var command = new CancelEventCommand(eventId);
+
+        var result = await sender.Send(command);
+
+        if (!result.IsSuccess)
+        {
+            return result.ToHttpResult();
+        }
+
+        var cancelResult = result.Value!;
+
+        return Results.Ok(new CancelEventResponse(
+            cancelResult.Status,
+            cancelResult.CancelledAt,
+            cancelResult.UpdatedAt));
     }
 }

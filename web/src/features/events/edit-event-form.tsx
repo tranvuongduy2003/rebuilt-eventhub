@@ -5,6 +5,17 @@ import { Controller, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
 import { paths } from '@/app/paths'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field'
@@ -156,7 +167,47 @@ export function EditEventForm({ event }: EditEventFormProps) {
     },
   })
 
+  const closeMutation = useMutation({
+    mutationFn: () => eventsApi.closeEvent(event.eventId),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ['events', event.eventId] })
+      void queryClient.invalidateQueries({ queryKey: ['events'] })
+    },
+    onError: (error) => {
+      if (error instanceof ApiError && error.status === 422) {
+        form.setError('root', {
+          message: error.problem.detail ?? 'This event cannot be closed.',
+        })
+      } else {
+        form.setError('root', { message: 'Something went wrong. Please try again.' })
+      }
+    },
+  })
+
+  const cancelMutation = useMutation({
+    mutationFn: () => eventsApi.cancelEvent(event.eventId),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ['events', event.eventId] })
+      void queryClient.invalidateQueries({ queryKey: ['events'] })
+    },
+    onError: (error) => {
+      if (error instanceof ApiError && error.status === 422) {
+        form.setError('root', {
+          message: error.problem.detail ?? 'This event cannot be cancelled.',
+        })
+      } else {
+        form.setError('root', { message: 'Something went wrong. Please try again.' })
+      }
+    },
+  })
+
   const rootError = form.formState.errors.root
+
+  const isAnyPending =
+    editMutation.isPending ||
+    publishMutation.isPending ||
+    closeMutation.isPending ||
+    cancelMutation.isPending
 
   if (isTerminal) {
     return (
@@ -329,8 +380,8 @@ export function EditEventForm({ event }: EditEventFormProps) {
         ) : null}
       </FieldGroup>
 
-      <div className="flex gap-3">
-        <Button type="submit" disabled={editMutation.isPending || publishMutation.isPending}>
+      <div className="flex flex-wrap gap-3">
+        <Button type="submit" disabled={isAnyPending}>
           {editMutation.isPending ? (
             <>
               <Spinner className="mr-2" />
@@ -343,7 +394,7 @@ export function EditEventForm({ event }: EditEventFormProps) {
         <Button
           type="button"
           variant="outline"
-          disabled={editMutation.isPending || publishMutation.isPending}
+          disabled={isAnyPending}
           onClick={() => navigate(paths.events)}
         >
           Cancel
@@ -352,7 +403,7 @@ export function EditEventForm({ event }: EditEventFormProps) {
           <Button
             type="button"
             variant="default"
-            disabled={editMutation.isPending || publishMutation.isPending}
+            disabled={isAnyPending}
             onClick={() => publishMutation.mutate()}
           >
             {publishMutation.isPending ? (
@@ -364,6 +415,60 @@ export function EditEventForm({ event }: EditEventFormProps) {
               'Publish event'
             )}
           </Button>
+        )}
+        {event.status === 'Published' && (
+          <Button
+            type="button"
+            variant="outline"
+            disabled={isAnyPending}
+            onClick={() => closeMutation.mutate()}
+          >
+            {closeMutation.isPending ? (
+              <>
+                <Spinner className="mr-2" />
+                Closing…
+              </>
+            ) : (
+              'Close event'
+            )}
+          </Button>
+        )}
+        {(event.status === 'Published' || event.status === 'Closed') && (
+          <AlertDialog>
+            <AlertDialogTrigger
+              render={
+                <Button type="button" variant="destructive" disabled={isAnyPending} />
+              }
+            >
+              {cancelMutation.isPending ? (
+                <>
+                  <Spinner className="mr-2" />
+                  Cancelling…
+                </>
+              ) : (
+                'Cancel event'
+              )}
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Cancel this event?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action cannot be undone. Sales will stop immediately and the event will be
+                  marked as cancelled. Once refunds are implemented, paid orders will be refunded
+                  automatically.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Keep event</AlertDialogCancel>
+                <AlertDialogAction
+                  variant="destructive"
+                  onClick={() => cancelMutation.mutate()}
+                >
+                  Cancel event
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         )}
       </div>
     </form>
