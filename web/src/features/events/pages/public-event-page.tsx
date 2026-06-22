@@ -57,9 +57,7 @@ export function PublicEventPage() {
           <CardTitle className="text-2xl">{event.title}</CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col gap-4">
-          {event.description && (
-            <p className="text-muted-foreground">{event.description}</p>
-          )}
+          {event.description && <p className="text-muted-foreground">{event.description}</p>}
 
           <div className="text-muted-foreground text-sm">
             <p>
@@ -101,9 +99,7 @@ export function PublicEventPage() {
 
           {event.status === 'Cancelled' && (
             <Alert variant="destructive">
-              <AlertDescription>
-                This event has been cancelled.
-              </AlertDescription>
+              <AlertDescription>This event has been cancelled.</AlertDescription>
             </Alert>
           )}
         </CardContent>

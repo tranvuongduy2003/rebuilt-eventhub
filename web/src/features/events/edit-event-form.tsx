@@ -436,9 +436,7 @@ export function EditEventForm({ event }: EditEventFormProps) {
         {(event.status === 'Published' || event.status === 'Closed') && (
           <AlertDialog>
             <AlertDialogTrigger
-              render={
-                <Button type="button" variant="destructive" disabled={isAnyPending} />
-              }
+              render={<Button type="button" variant="destructive" disabled={isAnyPending} />}
             >
               {cancelMutation.isPending ? (
                 <>
@@ -460,10 +458,7 @@ export function EditEventForm({ event }: EditEventFormProps) {
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Keep event</AlertDialogCancel>
-                <AlertDialogAction
-                  variant="destructive"
-                  onClick={() => cancelMutation.mutate()}
-                >
+                <AlertDialogAction variant="destructive" onClick={() => cancelMutation.mutate()}>
                   Cancel event
                 </AlertDialogAction>
               </AlertDialogFooter>
