@@ -21,6 +21,7 @@ internal static class EventPersistenceMapper
             Status = domain.Status,
             Slug = domain.Slug?.Value,
             CoverImageKey = domain.CoverImageRef?.Value,
+            CancelledAt = domain.CancelledAt,
             CreatedAt = domain.CreatedAt,
             UpdatedAt = domain.UpdatedAt,
             RowVersion = domain.RowVersion,
@@ -37,6 +38,7 @@ internal static class EventPersistenceMapper
             record.Status,
             record.Slug is not null ? Slug.Create(record.Slug) : null,
             record.CoverImageKey is not null ? CoverImageRef.Create(record.CoverImageKey) : null,
+            record.CancelledAt,
             record.CreatedAt,
             record.UpdatedAt,
             record.RowVersion);

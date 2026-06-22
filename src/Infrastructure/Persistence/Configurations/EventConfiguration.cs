@@ -25,6 +25,7 @@ internal sealed class EventConfiguration : IEntityTypeConfiguration<EventRecord>
         builder.Property(e => e.Status).HasColumnName("status").HasConversion<string>().HasMaxLength(32).IsRequired();
         builder.Property(e => e.Slug).HasColumnName("slug").HasMaxLength(300);
         builder.Property(e => e.CoverImageKey).HasColumnName("cover_image_key").HasMaxLength(512);
+        builder.Property(e => e.CancelledAt).HasColumnName("cancelled_at");
         builder.Property(e => e.CreatedAt).HasColumnName("created_at");
         builder.Property(e => e.UpdatedAt).HasColumnName("updated_at");
         builder.Property(e => e.RowVersion).AsRowVersion();

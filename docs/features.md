@@ -414,9 +414,10 @@ EventHub takes no cut and holds no money.
 
 #### F-6.6 — Refund on cancellation
 `Next · serves PER-O1, PER-A1 · depends on F-6.3, F-2.5`
-Cancelling an event refunds its paid orders.
+Cancelling an event refunds its paid orders. Consumes the `EVT-EventCancelled` integration event raised by F-2.5.
 - **Acceptance criteria**
   - When an organizer cancels an event (F-2.5), then each paid order is refunded through the provider and marked refunded, and the affected tickets are invalidated.
+  - The refund is triggered by the `EVT-EventCancelled` integration event, ensuring the cancellation intent (recorded in F-2.5) is acted upon even if refunds are processed asynchronously.
 
 ---
 

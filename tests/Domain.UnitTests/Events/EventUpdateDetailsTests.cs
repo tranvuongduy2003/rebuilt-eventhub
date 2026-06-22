@@ -142,6 +142,7 @@ public sealed class EventUpdateDetailsTests
             EventStatus.Published,
             Slug.Create("published-event-a1b2c3d4"),
             null,
+            null,
             CreatedAt,
             CreatedAt,
             1);
@@ -160,6 +161,7 @@ public sealed class EventUpdateDetailsTests
             EventStatus.Closed,
             Slug.Create("closed-event-a1b2c3d4"),
             null,
+            null,
             CreatedAt,
             CreatedAt,
             1);
@@ -176,6 +178,7 @@ public sealed class EventUpdateDetailsTests
             EventLocation.Create("123 Main St", false),
             null,
             EventStatus.Cancelled,
+            null,
             null,
             null,
             CreatedAt,

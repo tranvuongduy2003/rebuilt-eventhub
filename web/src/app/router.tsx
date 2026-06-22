@@ -7,6 +7,7 @@ import { authRoutes } from '@/features/auth'
 import { checkInRoutes } from '@/features/check-in/routes'
 import { checkoutRoutes } from '@/features/checkout/routes'
 import { eventsRoutes } from '@/features/events/routes'
+import { PublicEventPage } from '@/features/events/pages/public-event-page'
 import { HomePage } from '@/features/home/pages/home-page'
 import { ticketsRoutes } from '@/features/tickets/routes'
 import { AppLayout } from '@/layouts/app-layout'
@@ -33,5 +34,6 @@ export const router = createBrowserRouter([
       },
     ],
   },
+  { path: '/e/:eventId', element: <PublicEventPage /> },
   { path: '*', element: <Navigate to={paths.home} replace /> },
 ])
