@@ -339,6 +339,43 @@ components:
         - email
         - role
       type: object
+    OccurrenceResponse:
+      properties:
+        address:
+          type:
+            - "null"
+            - string
+        createdAt:
+          format: date-time
+          type: string
+        endsAt:
+          format: date-time
+          type: string
+        occurrenceId:
+          format: int32
+          pattern: ^-?(?:0|[1-9]\d*)$
+          type:
+            - integer
+            - string
+        startsAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+        venueName:
+          type:
+            - "null"
+            - string
+      required:
+        - occurrenceId
+        - startsAt
+        - endsAt
+        - venueName
+        - address
+        - createdAt
+        - updatedAt
+      type: object
     ProblemDetails:
       properties:
         detail:
@@ -391,6 +428,116 @@ components:
         - displayName
         - email
         - password
+      type: object
+    RescheduleOccurrenceRequest:
+      properties:
+        address:
+          type:
+            - "null"
+            - string
+        endsAt:
+          format: date-time
+          type: string
+        startsAt:
+          format: date-time
+          type: string
+        venueName:
+          type:
+            - "null"
+            - string
+      required:
+        - startsAt
+        - endsAt
+        - venueName
+        - address
+      type: object
+    RescheduleOccurrenceResponse:
+      properties:
+        address:
+          type:
+            - "null"
+            - string
+        endsAt:
+          format: date-time
+          type: string
+        occurrenceId:
+          format: int32
+          pattern: ^-?(?:0|[1-9]\d*)$
+          type:
+            - integer
+            - string
+        startsAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+        venueName:
+          type:
+            - "null"
+            - string
+      required:
+        - occurrenceId
+        - startsAt
+        - endsAt
+        - venueName
+        - address
+        - updatedAt
+      type: object
+    ScheduleOccurrenceRequest:
+      properties:
+        address:
+          type:
+            - "null"
+            - string
+        endsAt:
+          format: date-time
+          type: string
+        startsAt:
+          format: date-time
+          type: string
+        venueName:
+          type:
+            - "null"
+            - string
+      required:
+        - startsAt
+        - endsAt
+        - venueName
+        - address
+      type: object
+    ScheduleOccurrenceResponse:
+      properties:
+        address:
+          type:
+            - "null"
+            - string
+        createdAt:
+          format: date-time
+          type: string
+        endsAt:
+          format: date-time
+          type: string
+        occurrenceId:
+          format: int32
+          pattern: ^-?(?:0|[1-9]\d*)$
+          type:
+            - integer
+            - string
+        startsAt:
+          format: date-time
+          type: string
+        venueName:
+          type:
+            - "null"
+            - string
+      required:
+        - occurrenceId
+        - startsAt
+        - endsAt
+        - venueName
+        - address
+        - createdAt
       type: object
     SendInvitationRequest:
       properties:
@@ -1174,6 +1321,216 @@ paths:
           description: Internal Server Error
       tags:
         - EventInvitations
+  /api/events/{eventId}/occurrences:
+    get:
+      operationId: GetEventOccurrences
+      parameters:
+        - in: path
+          name: eventId
+          required: true
+          schema:
+            format: int32
+            pattern: ^-?(?:0|[1-9]\d*)$
+            type:
+              - integer
+              - string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/OccurrenceResponse"
+                type: array
+          description: OK
+        "404":
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
+          description: Not Found
+      tags:
+        - Occurrences
+    post:
+      operationId: ScheduleOccurrence
+      parameters:
+        - in: path
+          name: eventId
+          required: true
+          schema:
+            format: int32
+            pattern: ^-?(?:0|[1-9]\d*)$
+            type:
+              - integer
+              - string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ScheduleOccurrenceRequest"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ScheduleOccurrenceResponse"
+          description: Created
+        "401":
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
+          description: Unauthorized
+        "403":
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
+          description: Forbidden
+        "404":
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
+          description: Not Found
+        "422":
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
+          description: Unprocessable Entity
+        "500":
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
+          description: Internal Server Error
+      tags:
+        - Occurrences
+  /api/events/{eventId}/occurrences/{occurrenceId}:
+    delete:
+      operationId: CancelOccurrence
+      parameters:
+        - in: path
+          name: eventId
+          required: true
+          schema:
+            format: int32
+            pattern: ^-?(?:0|[1-9]\d*)$
+            type:
+              - integer
+              - string
+        - in: path
+          name: occurrenceId
+          required: true
+          schema:
+            format: int32
+            pattern: ^-?(?:0|[1-9]\d*)$
+            type:
+              - integer
+              - string
+      responses:
+        "204":
+          description: No Content
+        "401":
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
+          description: Unauthorized
+        "403":
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
+          description: Forbidden
+        "404":
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
+          description: Not Found
+        "422":
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
+          description: Unprocessable Entity
+        "500":
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
+          description: Internal Server Error
+      tags:
+        - Occurrences
+    patch:
+      operationId: RescheduleOccurrence
+      parameters:
+        - in: path
+          name: eventId
+          required: true
+          schema:
+            format: int32
+            pattern: ^-?(?:0|[1-9]\d*)$
+            type:
+              - integer
+              - string
+        - in: path
+          name: occurrenceId
+          required: true
+          schema:
+            format: int32
+            pattern: ^-?(?:0|[1-9]\d*)$
+            type:
+              - integer
+              - string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RescheduleOccurrenceRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RescheduleOccurrenceResponse"
+          description: OK
+        "401":
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
+          description: Unauthorized
+        "403":
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
+          description: Forbidden
+        "404":
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
+          description: Not Found
+        "422":
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
+          description: Unprocessable Entity
+        "500":
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
+          description: Internal Server Error
+      tags:
+        - Occurrences
   /api/events/{eventId}/publish:
     post:
       operationId: PublishEvent
@@ -1589,5 +1946,6 @@ tags:
   - name: Events
   - name: EventInvitations
   - name: EventRoles
+  - name: Occurrences
   - name: Profile
   - name: Users
