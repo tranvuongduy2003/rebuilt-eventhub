@@ -17,6 +17,8 @@ public sealed class ApplicationDatabaseContext(DbContextOptions<ApplicationDatab
 
     public DbSet<OccurrenceRecord> Occurrences => Set<OccurrenceRecord>();
 
+    public DbSet<TicketTypeRecord> TicketTypes => Set<TicketTypeRecord>();
+
     public DbSet<EventUserRoleRecord> EventUserRoles => Set<EventUserRoleRecord>();
 
     public DbSet<EventInvitationRecord> EventInvitations => Set<EventInvitationRecord>();

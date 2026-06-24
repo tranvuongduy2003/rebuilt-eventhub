@@ -24,6 +24,7 @@ public sealed class PublishEventTests(IntegrationTestFixture fixture)
     {
         var userId = await RegisterOrganizerAsync();
         var eventId = await SeedDraftEventAsync(userId);
+        await SeedTicketTypeAsync(eventId);
 
         using var response = await _client.PostAsync($"/api/events/{eventId}/publish", null);
 
@@ -36,6 +37,7 @@ public sealed class PublishEventTests(IntegrationTestFixture fixture)
     {
         var userId = await RegisterOrganizerAsync();
         var eventId = await SeedDraftEventAsync(userId);
+        await SeedTicketTypeAsync(eventId);
 
         using var firstPublish = await _client.PostAsync($"/api/events/{eventId}/publish", null);
         firstPublish.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -68,6 +70,7 @@ public sealed class PublishEventTests(IntegrationTestFixture fixture)
     {
         var userId = await RegisterOrganizerAsync();
         var eventId = await SeedDraftEventAsync(userId);
+        await SeedTicketTypeAsync(eventId);
 
         using var publishResponse = await _client.PostAsync($"/api/events/{eventId}/publish", null);
         publishResponse.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -131,5 +134,25 @@ public sealed class PublishEventTests(IntegrationTestFixture fixture)
         await databaseContext.SaveChangesAsync();
 
         return eventRecord.Id;
+    }
+
+    private async Task SeedTicketTypeAsync(int eventId)
+    {
+        await using var scope = fixture.Factory.Services.CreateAsyncScope();
+        var databaseContext = scope.ServiceProvider.GetRequiredService<ApplicationDatabaseContext>();
+
+        databaseContext.TicketTypes.Add(new TicketTypeRecord
+        {
+            EventId = eventId,
+            Name = "General Admission",
+            PriceAmount = 50m,
+            PriceCurrency = "VND",
+            Capacity = 100,
+            Sold = 0,
+            Reserved = 0,
+            CreatedAt = DateTimeOffset.UtcNow,
+            UpdatedAt = DateTimeOffset.UtcNow,
+        });
+        await databaseContext.SaveChangesAsync();
     }
 }
