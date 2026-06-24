@@ -145,6 +145,11 @@ public sealed class EventCancelTests
     private static Event CreatePublishedEvent()
     {
         var draftEvent = CreateDraftEvent();
+        draftEvent.AddTicketType(
+            TicketName.Create("General Admission"),
+            Money.Create(50m, "VND"),
+            Capacity.Create(100),
+            CreatedAt);
         draftEvent.Publish(Slug.Create("tech-conference-2026-a1b2c3d4"), PublishedAt);
         draftEvent.ClearDomainEvents();
         return draftEvent;

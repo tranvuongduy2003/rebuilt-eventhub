@@ -7,6 +7,7 @@ namespace EventHub.Domain.Events;
 public sealed class Event : AggregateRoot<EventId>
 {
     private readonly List<Occurrence> _occurrences = [];
+    private readonly List<TicketType> _ticketTypes = [];
 
     private Event()
     {
@@ -15,6 +16,8 @@ public sealed class Event : AggregateRoot<EventId>
     public UserId OrganizerId { get; private set; }
 
     public IReadOnlyCollection<Occurrence> Occurrences => _occurrences.AsReadOnly();
+
+    public IReadOnlyCollection<TicketType> TicketTypes => _ticketTypes.AsReadOnly();
 
     public EventTitle Title { get; private set; } = null!;
 
@@ -103,6 +106,13 @@ public sealed class Event : AggregateRoot<EventId>
                     EventStatus.Cancelled => "Cannot publish a cancelled event.",
                     _ => "The event cannot be published in its current status.",
                 });
+        }
+
+        if (_ticketTypes.Count == 0)
+        {
+            throw new BusinessRuleValidationException(
+                "EVENT_REQUIRES_TICKET_TYPE",
+                "At least one ticket type is required before publishing.");
         }
 
         Status = EventStatus.Published;
@@ -273,6 +283,42 @@ public sealed class Event : AggregateRoot<EventId>
     {
         _occurrences.Clear();
         _occurrences.AddRange(occurrences);
+    }
+
+    public TicketType AddTicketType(
+        TicketName name,
+        Money price,
+        Capacity capacity,
+        DateTimeOffset createdAt)
+    {
+        if (Status is not EventStatus.Draft)
+        {
+            throw new BusinessRuleValidationException(
+                "INVALID_EVENT_STATUS",
+                Status switch
+                {
+                    EventStatus.Published => "Cannot add ticket types to a published event.",
+                    EventStatus.Closed => "Cannot add ticket types to a closed event.",
+                    EventStatus.Cancelled => "Cannot add ticket types to a cancelled event.",
+                    _ => "Cannot add ticket types to an event in its current status.",
+                });
+        }
+
+        var ticketType = TicketType.Create(name, price, capacity, createdAt);
+
+        _ticketTypes.Add(ticketType);
+
+        UpdatedAt = createdAt;
+
+        Raise(new TicketTypeAddedEvent(Id, ticketType.Id));
+
+        return ticketType;
+    }
+
+    public void LoadTicketTypes(List<TicketType> ticketTypes)
+    {
+        _ticketTypes.Clear();
+        _ticketTypes.AddRange(ticketTypes);
     }
 
     public static Event FromPersistence(

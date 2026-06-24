@@ -125,11 +125,23 @@ public sealed class EventPublishTests
             .Which.Code.Should().Be("EVENT_NOT_PUBLISHABLE");
     }
 
-    private static Event CreateValidDraftEvent() =>
-        Event.CreateDraft(
+    private static Event CreateValidDraftEvent()
+    {
+        var draftEvent = Event.CreateDraft(
             UserId.New(),
             EventTitle.Create("Tech Conference 2026"),
             EventSchedule.Create(StartsAt, EndsAt, "UTC"),
             EventLocation.Create("123 Conference Ave", false),
             CreatedAt);
+
+        draftEvent.AddTicketType(
+            TicketName.Create("General Admission"),
+            Money.Create(50m, "VND"),
+            Capacity.Create(100),
+            CreatedAt);
+
+        draftEvent.ClearDomainEvents();
+
+        return draftEvent;
+    }
 }

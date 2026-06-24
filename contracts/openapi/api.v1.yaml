@@ -9,6 +9,79 @@ components:
       required:
         - token
       type: object
+    AddTicketTypeRequest:
+      properties:
+        capacity:
+          format: int32
+          pattern: ^-?(?:0|[1-9]\d*)$
+          type:
+            - integer
+            - string
+        name:
+          type: string
+        priceAmount:
+          format: double
+          pattern: ^-?(?:0|[1-9]\d*)(?:\.\d+)?$
+          type:
+            - number
+            - string
+        priceCurrency:
+          type: string
+      required:
+        - name
+        - priceAmount
+        - priceCurrency
+        - capacity
+      type: object
+    AddTicketTypeResponse:
+      properties:
+        capacity:
+          format: int32
+          pattern: ^-?(?:0|[1-9]\d*)$
+          type:
+            - integer
+            - string
+        createdAt:
+          format: date-time
+          type: string
+        name:
+          type: string
+        priceAmount:
+          format: double
+          pattern: ^-?(?:0|[1-9]\d*)(?:\.\d+)?$
+          type:
+            - number
+            - string
+        priceCurrency:
+          type: string
+        reserved:
+          format: int32
+          pattern: ^-?(?:0|[1-9]\d*)$
+          type:
+            - integer
+            - string
+        sold:
+          format: int32
+          pattern: ^-?(?:0|[1-9]\d*)$
+          type:
+            - integer
+            - string
+        ticketTypeId:
+          format: int32
+          pattern: ^-?(?:0|[1-9]\d*)$
+          type:
+            - integer
+            - string
+      required:
+        - ticketTypeId
+        - name
+        - priceAmount
+        - priceCurrency
+        - capacity
+        - sold
+        - reserved
+        - createdAt
+      type: object
     AssignRoleRequest:
       properties:
         role:
@@ -1754,6 +1827,64 @@ paths:
           description: Internal Server Error
       tags:
         - EventRoles
+  /api/events/{eventId}/ticket-types:
+    post:
+      operationId: AddTicketType
+      parameters:
+        - in: path
+          name: eventId
+          required: true
+          schema:
+            format: int32
+            pattern: ^-?(?:0|[1-9]\d*)$
+            type:
+              - integer
+              - string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AddTicketTypeRequest"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AddTicketTypeResponse"
+          description: Created
+        "401":
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
+          description: Unauthorized
+        "403":
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
+          description: Forbidden
+        "404":
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
+          description: Not Found
+        "422":
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
+          description: Unprocessable Entity
+        "500":
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
+          description: Internal Server Error
+      tags:
+        - TicketTypes
   /api/health:
     get:
       operationId: GetApiHealth
@@ -1948,4 +2079,5 @@ tags:
   - name: EventRoles
   - name: Occurrences
   - name: Profile
+  - name: TicketTypes
   - name: Users

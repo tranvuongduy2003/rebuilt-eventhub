@@ -30,9 +30,18 @@ internal sealed class EventRepository(ApplicationDatabaseContext databaseContext
             .OrderBy(o => o.StartsAt)
             .ToListAsync(cancellationToken);
 
+        var ticketTypeRecords = await databaseContext.TicketTypes
+            .AsNoTracking()
+            .Where(t => t.EventId == eventId.Value)
+            .OrderBy(t => t.Id)
+            .ToListAsync(cancellationToken);
+
         var domainEvent = EventPersistenceMapper.ToDomain(record);
         var occurrences = occurrenceRecords.Select(OccurrencePersistenceMapper.ToDomain).ToList();
         domainEvent.LoadOccurrences(occurrences);
+
+        var ticketTypes = ticketTypeRecords.Select(TicketTypePersistenceMapper.ToDomain).ToList();
+        domainEvent.LoadTicketTypes(ticketTypes);
 
         return domainEvent;
     }
@@ -74,6 +83,41 @@ internal sealed class EventRepository(ApplicationDatabaseContext databaseContext
             {
                 var newRecord = OccurrencePersistenceMapper.ToRecord(occurrence, eventIdValue);
                 await databaseContext.Occurrences.AddAsync(newRecord, cancellationToken);
+            }
+        }
+
+        // Sync ticket types with the domain aggregate
+        var existingTicketTypeRecords = await databaseContext.TicketTypes
+            .Where(t => t.EventId == eventIdValue)
+            .ToListAsync(cancellationToken);
+
+        var domainTicketTypeIds = domain.TicketTypes.Select(t => t.Id.Value).ToHashSet();
+
+        // Remove ticket types that no longer exist in the domain
+        var ticketTypesToRemove = existingTicketTypeRecords
+            .Where(r => !domainTicketTypeIds.Contains(r.Id))
+            .ToList();
+        databaseContext.TicketTypes.RemoveRange(ticketTypesToRemove);
+
+        // Update existing or add new ticket types
+        foreach (var ticketType in domain.TicketTypes)
+        {
+            var existing = existingTicketTypeRecords
+                .FirstOrDefault(r => r.Id == ticketType.Id.Value);
+            if (existing is not null)
+            {
+                existing.Name = ticketType.Name.Value;
+                existing.PriceAmount = ticketType.Price.Amount;
+                existing.PriceCurrency = ticketType.Price.Currency;
+                existing.Capacity = ticketType.Capacity.Value;
+                existing.Sold = ticketType.Sold;
+                existing.Reserved = ticketType.Reserved;
+                existing.UpdatedAt = ticketType.UpdatedAt;
+            }
+            else
+            {
+                var newRecord = TicketTypePersistenceMapper.ToRecord(ticketType, eventIdValue);
+                await databaseContext.TicketTypes.AddAsync(newRecord, cancellationToken);
             }
         }
     }
