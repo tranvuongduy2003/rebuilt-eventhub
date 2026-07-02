@@ -14,7 +14,7 @@ Local-first event management and ticketing platform. .NET backend (Clean Archite
 | **Skills** (`.agents/skills/`) | OpenAPI sync, MCP (Postgres, Neo4j GraphRAG), env setup, git/PR, UI |
 | **Custom agents** (`.codex/agents/`) | Read-only subagents and workflow helpers |
 
-Open the repo in Codex; agents read `AGENTS.md` and **`docs/constitution.md`** plus companion docs before changing code.
+Open the repo in Codex; agents read `AGENTS.md` and **`docs/CONSTITUTION.md`** plus companion docs before changing code.
 
 **Agent workflow:** `/spec` (spec in `docs/_memory/specs/` + one GitHub issue) → `/plan` (agent skills manage implementation) → `/cook` (implement, then delete plan if one was created).
 
@@ -95,7 +95,7 @@ See `.agents/skills/postgres-mcp/SKILL.md` and `.agents/skills/neo4j-graphrag/SK
 
 | Document | Role |
 |----------|------|
-| [`docs/constitution.md`](docs/constitution.md) | Immutable principles |
+| [`docs/CONSTITUTION.md`](docs/CONSTITUTION.md) | Immutable principles |
 | [`docs/_memory/source/product-requirements.md`](docs/_memory/source/product-requirements.md) | Product intent and decisions |
 | [`docs/_memory/source/feature-specification.md`](docs/_memory/source/feature-specification.md) | Epics, features, acceptance criteria |
 | [`docs/_memory/source/domain-model-specification.md`](docs/_memory/source/domain-model-specification.md) | Domain model |
