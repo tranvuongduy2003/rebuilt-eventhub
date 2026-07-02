@@ -49,7 +49,6 @@ yarn --cwd web install
 
 cp .env.example .env
 cp web/.env.example web/.env
-cp .mcp.json.example .mcp.json
 
 dotnet dev-certs https
 dotnet dev-certs https --trust
@@ -79,13 +78,16 @@ aspire run --project src/AppHost/EventHub.AppHost.csproj
 
 ## MCP servers
 
-Copy [`.mcp.json.example`](.mcp.json.example) to `.mcp.json` and set credentials in `.env`:
+Shared MCP server config lives in [`.codex/config.toml`](.codex/config.toml). Do not use `.mcp.json` as a repository standard; it is local-only and may contain machine-specific secrets.
 
 | Server | Purpose |
 |--------|---------|
 | `aspire` | Aspire dashboard resources, logs |
 | `postgres` | Read-only SQL against local `app` database |
 | `neo4j-graphrag` | Cypher, vector/fulltext search, GraphRAG |
+| `playwright` | Browser automation for e2e diagnostics |
+| `github` | GitHub MCP over HTTP |
+| `shadcn` | shadcn component registry MCP |
 
 See `.agents/skills/postgres-mcp/SKILL.md` and `.agents/skills/neo4j-graphrag/SKILL.md`.
 

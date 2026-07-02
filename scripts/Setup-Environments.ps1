@@ -5,7 +5,7 @@
 
 .DESCRIPTION
   Verifies prerequisites, restores .NET dependencies, seeds optional
-  .env and .mcp.json files, creates and trusts the ASP.NET Core HTTPS development certificate.
+  .env files, creates and trusts the ASP.NET Core HTTPS development certificate.
 
   Run from any directory:
     .\scripts\Setup-Environments.ps1
@@ -27,7 +27,7 @@
   Skip the final solution build smoke test.
 
 .PARAMETER ForceEnvCopy
-  Overwrite existing .env and .mcp.json from their *.example templates.
+  Overwrite existing .env files from their *.example templates.
 
 .EXAMPLE
   .\scripts\Setup-Environments.ps1
@@ -256,119 +256,6 @@ function Initialize-WebEnvFile {
     Write-Ok "Created $TargetPath from web/.env.example (VITE_API_URL=$ApiHttpsUrl)"
 }
 
-function Get-EnvFileValues([string] $EnvFilePath) {
-    $values = @{}
-
-    if (-not (Test-Path $EnvFilePath)) {
-        return $values
-    }
-
-    foreach ($line in Get-Content $EnvFilePath) {
-        if ($line -match '^\s*(?<key>[A-Za-z_][A-Za-z0-9_]*)\s*=\s*(?<value>.*)\s*$') {
-            $key = $Matches['key']
-            $value = $Matches['value'].Trim().Trim('"').Trim("'")
-            $values[$key] = $value
-        }
-    }
-
-    return $values
-}
-
-function Get-PostgresUriFromEnv([string] $EnvFilePath) {
-    $values = Get-EnvFileValues -EnvFilePath $EnvFilePath
-
-    if ($values.ContainsKey('POSTGRES_URI') -and -not [string]::IsNullOrWhiteSpace($values['POSTGRES_URI'])) {
-        return $values['POSTGRES_URI']
-    }
-
-    $postgresUser = if ($values.ContainsKey('POSTGRES_USER')) { $values['POSTGRES_USER'] } else { 'postgres' }
-    $postgresPassword = if ($values.ContainsKey('POSTGRES_PASSWORD')) { $values['POSTGRES_PASSWORD'] } else { 'postgres' }
-    $postgresHost = if ($values.ContainsKey('POSTGRES_HOST')) { $values['POSTGRES_HOST'] } else { 'localhost' }
-    $postgresPort = if ($values.ContainsKey('POSTGRES_PORT')) { $values['POSTGRES_PORT'] } else { '5432' }
-    $postgresDatabase = if ($values.ContainsKey('POSTGRES_DB')) { $values['POSTGRES_DB'] } else { 'app' }
-
-    $encodedUser = [Uri]::EscapeDataString($postgresUser)
-    $encodedPassword = [Uri]::EscapeDataString($postgresPassword)
-    $encodedDatabase = [Uri]::EscapeDataString($postgresDatabase)
-    return 'postgresql://{0}:{1}@{2}:{3}/{4}?sslmode=disable' -f $encodedUser, $encodedPassword, $postgresHost, $postgresPort, $encodedDatabase
-}
-
-function ConvertTo-JsonString([string] $Value) {
-    return ($Value | ConvertTo-Json -Compress)
-}
-
-function Set-McpPostgresUri {
-    param(
-        [string] $TargetPath,
-        [string] $PostgresUri
-    )
-
-    $content = Get-Content -Path $TargetPath -Raw
-    $jsonUri = ConvertTo-JsonString -Value $PostgresUri
-
-    if ($content.Contains('"__POSTGRES_URI__"')) {
-        $content = $content.Replace('"__POSTGRES_URI__"', $jsonUri)
-    }
-    elseif ($content.Contains('__POSTGRES_URI__')) {
-        $content = $content.Replace('__POSTGRES_URI__', $PostgresUri)
-    }
-    else {
-        $mcpConfig = $content | ConvertFrom-Json
-        $servers = if ($mcpConfig.PSObject.Properties.Name -contains 'mcpServers') { $mcpConfig.mcpServers } else { $mcpConfig }
-        if (-not ($servers.PSObject.Properties.Name -contains 'postgres')) {
-            Write-Warn 'MCP config has no postgres server entry to personalize'
-            return
-        }
-
-        $postgresArgs = @($servers.postgres.args)
-        $postgresUriIndex = -1
-        for ($index = 0; $index -lt $postgresArgs.Count; $index++) {
-            if ([string]$postgresArgs[$index] -match '^postgres(ql)?://') {
-                $postgresUriIndex = $index
-                break
-            }
-        }
-
-        if ($postgresUriIndex -lt 0) {
-            Write-Warn 'MCP postgres server has no connection URI argument to personalize'
-            return
-        }
-
-        $oldJsonUri = ConvertTo-JsonString -Value ([string]$postgresArgs[$postgresUriIndex])
-        $content = $content.Replace($oldJsonUri, $jsonUri)
-    }
-
-    $utf8NoBom = New-Object System.Text.UTF8Encoding $false
-    [System.IO.File]::WriteAllText($TargetPath, $content.TrimEnd() + "`n", $utf8NoBom)
-    Write-Ok 'Personalized MCP Postgres URI (from .env)'
-}
-
-function Initialize-McpConfig {
-    param(
-        [string] $RepoRoot,
-        [string] $EnvFilePath
-    )
-
-    $examplePath = Join-Path $RepoRoot '.mcp.json.example'
-    $targetPath = Join-Path $RepoRoot '.mcp.json'
-
-    if (-not (Test-Path $examplePath)) {
-        Write-Warn "Missing template: $examplePath"
-        return
-    }
-
-    if ((Test-Path $targetPath) -and -not $ForceEnvCopy) {
-        Write-Ok "Already exists (use -ForceEnvCopy to overwrite): $targetPath"
-        return
-    }
-
-    Copy-Item -Path $examplePath -Destination $targetPath -Force
-    Write-Ok "Created $targetPath from .mcp.json.example"
-
-    $postgresUri = Get-PostgresUriFromEnv -EnvFilePath $EnvFilePath
-    Set-McpPostgresUri -TargetPath $targetPath -PostgresUri $postgresUri
-}
-
 Push-Location $RepoRoot
 try {
     Write-Host @"
@@ -562,14 +449,13 @@ Aspire CLI not on PATH (optional but recommended).
     }
 
     # --- Local config (not committed) ---
-    Write-Step 'Seeding local config (.env, MCP)'
+    Write-Step 'Seeding local config (.env)'
     $rootEnvPath = Join-Path $RepoRoot '.env'
     Copy-EnvFile -ExamplePath (Join-Path $RepoRoot '.env.example') -TargetPath $rootEnvPath
     Initialize-WebEnvFile `
         -ExamplePath (Join-Path $WebDir '.env.example') `
         -TargetPath (Join-Path $WebDir '.env') `
         -ApiHttpsUrl $ApiHttpsUrl
-    Initialize-McpConfig -RepoRoot $RepoRoot -EnvFilePath $rootEnvPath
 
     # --- HTTPS dev cert ---
     if (-not $SkipTrustCert) {
@@ -609,8 +495,8 @@ Next steps:
        Web UI: $WebHttpsUrl
 
 Docs: README.md, docs/_memory/source/technical-design.md
-MCP: .mcp.json is local-only (copy from .mcp.json.example); Postgres URI must match .env / AppHost.
-Re-run with -ForceEnvCopy to refresh .env, web\.env, and .mcp.json from templates.
+MCP: shared Codex MCP servers live in .codex/config.toml.
+Re-run with -ForceEnvCopy to refresh .env and web\.env from templates.
 
 "@ -ForegroundColor Green
 }

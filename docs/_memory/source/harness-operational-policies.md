@@ -17,7 +17,7 @@ Default local autonomy is workspace-write through `.codex/config.toml`.
 Protected paths are also enforced by hooks:
 
 - `.env`, `.env.*`
-- `.mcp.json`
+- `.mcp.json` (legacy/local only; shared MCP config lives in `.codex/config.toml`)
 - `web/src/generated/`
 - `contracts/openapi/.build/`
 - dependency and build outputs

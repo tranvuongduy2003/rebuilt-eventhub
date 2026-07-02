@@ -22,7 +22,7 @@ search_index:
   user_personas: [PER-O1, PER-O2]
 ---
 
-> GitHub: #21 (https://github.com/tranvuongduy2003/rebuilt-eventhub/issues/21)
+> GitHub: #21 (https://github.com/tranvuongduy2003/eventhub/issues/21)
 
 # Feature: Permission Audit Log
 

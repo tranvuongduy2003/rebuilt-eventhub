@@ -22,7 +22,7 @@ search_index:
   user_personas: [PER-O1, PER-O2]
 ---
 
-> GitHub: #47 (https://github.com/tranvuongduy2003/rebuilt-eventhub/issues/47)
+> GitHub: #47 (https://github.com/tranvuongduy2003/eventhub/issues/47)
 
 # Feature: Scheduled On-Sale Window
 

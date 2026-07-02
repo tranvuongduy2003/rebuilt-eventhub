@@ -22,7 +22,7 @@ search_index:
   user_personas: [PER-O1, PER-O2]
 ---
 
-> GitHub: #8 (https://github.com/tranvuongduy2003/rebuilt-eventhub/issues/8)
+> GitHub: #8 (https://github.com/tranvuongduy2003/eventhub/issues/8)
 
 # Feature: Manage organizer profile
 

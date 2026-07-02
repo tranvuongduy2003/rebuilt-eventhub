@@ -22,7 +22,7 @@ search_index:
   user_personas: ["PER-A1"]
 ---
 
-> GitHub: #57 (https://github.com/tranvuongduy2003/rebuilt-eventhub/issues/57)
+> GitHub: #57 (https://github.com/tranvuongduy2003/eventhub/issues/57)
 
 # Feature: Search and filter
 

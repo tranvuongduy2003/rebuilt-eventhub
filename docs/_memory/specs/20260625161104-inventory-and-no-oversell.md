@@ -22,7 +22,7 @@ search_index:
   user_personas: [PER-O1, PER-A1]
 ---
 
-> GitHub: #40 (https://github.com/tranvuongduy2003/rebuilt-eventhub/issues/40)
+> GitHub: #40 (https://github.com/tranvuongduy2003/eventhub/issues/40)
 
 # Feature: Inventory and No-Oversell Guarantee
 

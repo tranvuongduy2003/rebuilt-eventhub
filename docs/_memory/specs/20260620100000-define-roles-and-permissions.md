@@ -22,7 +22,7 @@ search_index:
   user_personas: [PER-O1, PER-O2]
 ---
 
-> GitHub: #13 (https://github.com/tranvuongduy2003/rebuilt-eventhub/issues/13)
+> GitHub: #13 (https://github.com/tranvuongduy2003/eventhub/issues/13)
 
 # Feature: Define roles and permissions
 

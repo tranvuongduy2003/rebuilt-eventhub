@@ -22,7 +22,7 @@ search_index:
   user_personas: ["PER-A1", "PER-A2"]
 ---
 
-> GitHub: #49 (https://github.com/tranvuongduy2003/rebuilt-eventhub/issues/49)
+> GitHub: #49 (https://github.com/tranvuongduy2003/eventhub/issues/49)
 
 # Feature: Shareable public event page
 

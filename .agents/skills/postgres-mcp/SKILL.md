@@ -5,7 +5,7 @@ description: Inspects and queries the local PostgreSQL database via the Codex MC
 
 # Postgres MCP (EventHub)
 
-Read-only PostgreSQL access through the **`postgres`** MCP server in [`.mcp.json`](../../../.mcp.json).
+Read-only PostgreSQL access through the **`postgres`** MCP server in [`.codex/config.toml`](../../../.codex/config.toml).
 
 ## Connection string (source of truth: AppHost)
 
@@ -25,21 +25,16 @@ Credentials and ports are defined by the Aspire AppHost, not hardcoded ad hoc va
 postgresql://postgres:postgres@localhost:5432/app?sslmode=disable
 ```
 
-Also documented in [`.env.example`](../../../.env.example) as `POSTGRES_URI`. If you change `Parameters:postgres-password` or the database name in AppHost, update `.mcp.json`, `.env.example`, and `.env` together.
+Also documented in [`.env.example`](../../../.env.example) as `POSTGRES_URI`. If you change `Parameters:postgres-password` or the database name in AppHost, update `.codex/config.toml`, `.env.example`, and `.env` together.
 
 When the stack is running, confirm the live string in the **Aspire dashboard** (Postgres â†’ `app` connection string) or via **aspire** MCP `list_resources`.
 
 ## Configuration
 
-```json
-"postgres": {
-  "command": "npx",
-  "args": [
-    "-y",
-    "@modelcontextprotocol/server-postgres",
-    "postgresql://postgres:postgres@localhost:5432/app?sslmode=disable"
-  ]
-}
+```toml
+[mcp_servers.postgres]
+command = "npx"
+args = ["-y", "@modelcontextprotocol/server-postgres", "postgresql://postgres:postgres@localhost:5432/app?sslmode=disable"]
 ```
 
 | Item | Value |

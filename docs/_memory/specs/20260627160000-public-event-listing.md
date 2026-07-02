@@ -22,7 +22,7 @@ search_index:
   user_personas: ["PER-A1"]
 ---
 
-> GitHub: #55 (https://github.com/tranvuongduy2003/rebuilt-eventhub/issues/55)
+> GitHub: #55 (https://github.com/tranvuongduy2003/eventhub/issues/55)
 
 # Feature: Public event listing
 

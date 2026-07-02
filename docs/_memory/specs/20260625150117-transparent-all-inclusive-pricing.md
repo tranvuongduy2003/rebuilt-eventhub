@@ -23,7 +23,7 @@ search_index:
   user_personas: [PER-A1, PER-A2]
 ---
 
-> GitHub: [#38](https://github.com/tranvuongduy2003/rebuilt-eventhub/issues/38)
+> GitHub: [#38](https://github.com/tranvuongduy2003/eventhub/issues/38)
 
 # Feature: Transparent, All-Inclusive Pricing
 

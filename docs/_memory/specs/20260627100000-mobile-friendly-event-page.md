@@ -22,7 +22,7 @@ search_index:
   user_personas: [PER-A1, PER-A2]
 ---
 
-> GitHub: #51 (https://github.com/tranvuongduy2003/rebuilt-eventhub/issues/51)
+> GitHub: #51 (https://github.com/tranvuongduy2003/eventhub/issues/51)
 
 # Feature: Mobile-friendly event page
 

@@ -22,7 +22,7 @@ search_index:
   user_personas: ["PER-O1", "PER-O2"]
 ---
 
-> GitHub: #53 (https://github.com/tranvuongduy2003/rebuilt-eventhub/issues/53)
+> GitHub: #53 (https://github.com/tranvuongduy2003/eventhub/issues/53)
 
 # Feature: Rich link previews
 

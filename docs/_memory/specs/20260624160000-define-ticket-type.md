@@ -20,7 +20,7 @@ search_index:
   keywords: [ticket-type, price, capacity, inventory, free-ticket, event, organizer, name, quantity]
   bounded_contexts: ["Event Management"]
   user_personas: ["PER-O1", "PER-O2"]
-> GitHub: #34 (https://github.com/tranvuongduy2003/rebuilt-eventhub/issues/34)
+> GitHub: #34 (https://github.com/tranvuongduy2003/eventhub/issues/34)
 
 ---
 

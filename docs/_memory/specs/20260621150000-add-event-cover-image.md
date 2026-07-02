@@ -23,7 +23,7 @@ search_index:
   user_personas: [PER-O1, PER-O2]
 ---
 
-> GitHub: [#23](https://github.com/tranvuongduy2003/rebuilt-eventhub/issues/23)
+> GitHub: [#23](https://github.com/tranvuongduy2003/eventhub/issues/23)
 
 # Feature: Add an event cover image
 

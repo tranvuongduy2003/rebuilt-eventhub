@@ -22,7 +22,7 @@ search_index:
   user_personas: [PER-O1]
 ---
 
-> GitHub: #43 (https://github.com/tranvuongduy2003/rebuilt-eventhub/issues/43)
+> GitHub: #43 (https://github.com/tranvuongduy2003/eventhub/issues/43)
 
 # Feature: Per-order purchase limit
 

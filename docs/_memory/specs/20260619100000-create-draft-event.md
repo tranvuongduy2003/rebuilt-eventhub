@@ -32,7 +32,7 @@ search_index:
   user_personas: [PER-O1, PER-O2]
 ---
 
-> GitHub: [#11](https://github.com/tranvuongduy2003/rebuilt-eventhub/issues/11)
+> GitHub: [#11](https://github.com/tranvuongduy2003/eventhub/issues/11)
 
 # Feature: Create a draft event
 
